@@ -1,32 +1,44 @@
 <?php
 session_start();
-include "koneksi.php";
+include "koneksi.php"; // Pastikan file koneksi database sudah benar
 
 // Mengambil input dari form dengan validasi
-$username = isset($_POST['username']) ? mysqli_real_escape_string($koneksi, trim($_POST['username'])) : '';
-$password = isset($_POST['password']) ? md5(mysqli_real_escape_string($koneksi, trim($_POST['password']))) : '';
+$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
-// Cek apakah username dan password tidak kosong
-if ($username && $password) {
-    // Query untuk memeriksa kredensial pengguna di database
-    $query = "SELECT * FROM user WHERE username = '$username' AND password = '$password' AND status = 'Aktif'";
-    $login = mysqli_query($koneksi, $query);
+// Periksa apakah username dan password tidak kosong
+if (!empty($username) && !empty($password)) {
+    // Gunakan prepared statement untuk keamanan
+    $stmt = $koneksi->prepare("SELECT * FROM user WHERE username = ? AND status = 'Aktif'");
+    $stmt->bind_param("s", $username);
+
+    // Eksekusi query
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     // Periksa apakah pengguna ditemukan
-    if (mysqli_num_rows($login) > 0) {
-        $data = mysqli_fetch_assoc($login);
+    if ($result->num_rows > 0) {
+        $data = $result->fetch_assoc();
 
-        // Set session untuk data pengguna
-        $_SESSION['id_user'] = $data['id_user'];
-        $_SESSION['username'] = $data['username'];
-        $_SESSION['nama_pengguna'] = $data['nama_pengguna'];
+        // Periksa apakah password sesuai
+        if ($data['password'] === md5($password)) {
+            // Set session untuk data pengguna
+            $_SESSION['id_user'] = $data['id_user'];
+            $_SESSION['username'] = $data['username'];
+            $_SESSION['nama_pengguna'] = $data['nama_pengguna'];
 
-        // Redirect ke halaman admin
-        header("Location: admin.php");
-        exit;
+            // Redirect ke halaman admin
+            header("Location: admin.php");
+            exit;
+        } else {
+            // Jika password salah
+            $_SESSION['login_error'] = "Username atau password salah.";
+            header("Location: index.php");
+            exit;
+        }
     } else {
-        // Jika login gagal, tampilkan pesan error
-        $_SESSION['login_error'] = "Username atau password salah, atau akun tidak aktif.";
+        // Jika username tidak ditemukan atau akun tidak aktif
+        $_SESSION['login_error'] = "Username tidak ditemukan atau akun tidak aktif.";
         header("Location: index.php");
         exit;
     }

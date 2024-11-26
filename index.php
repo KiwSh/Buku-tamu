@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-    body {
+        body {
         margin: 0;
         padding: 0;
         font-family: 'Nunito', sans-serif;
@@ -220,7 +220,6 @@
     }
 
     </style>
-
 </head>
 
 <body>
@@ -228,7 +227,7 @@
         <!-- Login Form -->
         <div class="login-form">
             <h1>Login</h1>
-            <form action="cek_login.php" method="POST">
+            <form action="cek_login.php" method="POST" id="loginForm">
                 <div class="form-group">
                     <input type="text" name="username" placeholder="Username" required>
                 </div>
@@ -253,7 +252,7 @@
     <!-- Script Loader -->
     <script>
         document.getElementById("loginButton").addEventListener("click", function(event) {
-            const button = event.target;
+            const button = event.target.closest("button");
             const loader = button.querySelector(".loader");
             const buttonText = button.querySelector(".button-text");
 
@@ -265,34 +264,35 @@
 
     <!-- Notifikasi SweetAlert -->
     <script>
-    <?php
-    session_start();
-    // Tampilkan pesan jika login sukses
-    if (isset($_SESSION['login_success'])) {
-        echo "Swal.fire({
-            icon: 'success',
-            title: 'Login Berhasil',
-            text: '{$_SESSION['login_success']}',
-            confirmButtonText: 'Lanjutkan'
-        }).then(() => {
-            window.location.href = 'admin.php'; // Redirect ke halaman dashboard
-        });";
-        unset($_SESSION['login_success']); // Hapus session setelah digunakan
-    }
+        <?php
+        session_start();
+        if (isset($_SESSION['login_success'])) {
+            $message = json_encode($_SESSION['login_success']); // Encode agar aman untuk JavaScript
+            echo "
+            Swal.fire({
+                icon: 'success',
+                title: 'Login Berhasil',
+                text: $message,
+                confirmButtonText: 'Lanjutkan'
+            }).then(() => {
+                window.location.href = 'admin.php'; // Redirect ke halaman dashboard
+            });";
+            unset($_SESSION['login_success']);
+        }
 
-    // Tampilkan pesan jika login gagal
-    if (isset($_SESSION['login_error'])) {
-        echo "Swal.fire({
-            icon: 'error',
-            title: 'Login Gagal',
-            text: '{$_SESSION['login_error']}',
-            confirmButtonText: 'Coba Lagi'
-        });";
-        unset($_SESSION['login_error']); // Hapus session setelah digunakan
-    }
-    ?>
-</script>
-
+        if (isset($_SESSION['login_error'])) {
+            $message = json_encode($_SESSION['login_error']); // Encode agar aman untuk JavaScript
+            echo "
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Gagal',
+                text: $message,
+                confirmButtonText: 'Coba Lagi'
+            });";
+            unset($_SESSION['login_error']);
+        }
+        ?>
+    </script>
 </body>
 
 </html>
