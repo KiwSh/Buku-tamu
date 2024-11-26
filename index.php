@@ -114,18 +114,48 @@
     }
 
     /* Welcome Section */
-    .welcome-section {
-        width: 50%;
-        background: linear-gradient(135deg, #333, #000);
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 60px 40px;
-        position: relative;
-        z-index: 2;
+.welcome-section {
+    width: 50%;
+    background-image: url('assets/img/megamendung-keren.jpeg'); /* Ganti dengan path gambar yang sesuai */
+    background-size: cover; /* Agar gambar memenuhi area */
+    background-position: center; /* Menempatkan gambar di tengah */
+    color: white;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 50.0); /* Tambahkan outline untuk teks */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 40px;
+    position: relative;
+    z-index: 2;
+}
+
+
+    /* Overlay untuk mengatur kecerahan background saja */
+    .welcome-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3); /* Menyesuaikan opasitas untuk kecerahan */
+        z-index: 1; /* Agar overlay berada di bawah teks */
     }
+
+
+    .welcome-section h2,
+    .welcome-section p {
+        z-index: 2; /* Pastikan teks berada di atas overlay */
+        color: white; /* Menjaga warna teks tetap putih */
+        
+    }
+
+    .welcome-section img {
+        width: 250px;
+        margin-bottom: 20px;
+    }
+
 
     .welcome-section h2 {
         font-size: 28px;
@@ -139,9 +169,24 @@
     }
 
     .welcome-section img {
-        width: 250px;
-        margin-bottom: 20px;
+    width: 350px;
+    margin-bottom: 20px;
+    filter: brightness(1.5); /* Menambahkan filter brightness untuk mencerahkan logo */
     }
+
+    .welcome-text {
+    background-color: rgba(0, 0, 0, 0.5); /* Warna latar belakang hitam dengan transparansi */
+    color: white; /* Warna teks */
+    padding: 10px 20px; /* Jarak teks dengan tepi box */
+    border-radius: 8px; /* Membuat sudut box melengkung */
+    display: inline-block; /* Agar ukuran box hanya sebesar teks */
+    text-align: center; /* Rata tengah teks */
+    font-size: 18px; /* Ukuran font */
+    line-height: 1.5; /* Spasi antar baris teks */
+    }
+
+
+
 
     .loader {
     width: 20px;
@@ -239,6 +284,8 @@
                     <span class="button-text">Login</span>
                     <div class="loader" style="display: none;"></div>
                 </button>
+                <br>
+                <br>
                 <p>2024 © BukTa Diskominfo Kab. Bogor | All Rights Reserved.</p>
             </form>
         </div>
@@ -246,7 +293,9 @@
         <div class="welcome-section">
             <img src="assets/img/logo-diskominfo.png" alt="Logo">
             <h2>WELCOME BACK!</h2>
-            <p>Selamat datang kembali di sistem Buku Tamu DISKOMINFO. Silakan login untuk melanjutkan.</p>
+            <p class="welcome-text">
+                Selamat datang kembali di sistem Buku Tamu DISKOMINFO. Silakan login untuk melanjutkan.
+            </p>
         </div>
     </div>
 
