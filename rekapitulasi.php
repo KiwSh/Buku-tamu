@@ -1,8 +1,6 @@
 <?php include "header.php"; ?>
 
-<body>
-
-    <body style="background: rgb(43,166,191); background: linear-gradient(0deg, rgba(43,166,191,1) 0%, rgba(194,194,194,1) 100%);">
+<body style="background: rgb(43,166,191); background: linear-gradient(0deg, rgba(43,166,191,1) 0%, rgba(194,194,194,1) 100%);">
 
 <div class="row">
     <div class="col-md-12">
@@ -53,6 +51,7 @@
                                 <th>Alamat</th>
                                 <th>Tujuan</th>
                                 <th>No. HP</th>
+                                <th>Foto</th> <!-- Kolom Foto -->
                             </tr>
                         </thead>
                         <tfoot>
@@ -63,6 +62,7 @@
                                 <th>Alamat</th>
                                 <th>Tujuan</th>
                                 <th>No. HP</th>
+                                <th>Foto</th> <!-- Kolom Foto -->
                             </tr>
                         </tfoot>
                         <tbody>
@@ -83,6 +83,8 @@
                                         <td><?= $data['alamat'] ?></td>
                                         <td><?= $data['tujuan'] ?></td>
                                         <td><?= $data['nope'] ?></td>
+                                        <!-- Menampilkan foto -->
+                                        <td><img src="uploads/<?= $data['foto'] ?>" width="100" alt="Foto Pengunjung"></td>
                                     </tr>
                             <?php 
                                 }
@@ -97,7 +99,6 @@
                         <input type="hidden" name="tanggal2" value="<?= $_POST['tanggal2'] ?>">
                         <button class="btn btn-success form-control" name="bexport"><i class="fa fa-download"> Export data Excel</i></button>
                     </form>
-
                     </center>
 
                 </div>
