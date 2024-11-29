@@ -109,7 +109,7 @@ if (isset($_POST['bsimpan'])) {
 <body style="background: linear-gradient(0deg, rgba(43,166,191,1) 0%, rgba(194,194,194,1) 100%);">
     <div class="container">
         <div class="head text-center">
-            <img src="assets/img/logo-diskominfo.png" width="500">
+            <img src="assets/img/diskominfo_kab_bogor-removebg-preview.png" width="400">
             <h2 class="text-white" style="text-shadow: 1px 1px 3px black;">Buku Tamu <br>DISKOMINFO KAB.BOGOR</h2>
         </div>
 
